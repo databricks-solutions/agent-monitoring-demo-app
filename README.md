@@ -14,7 +14,7 @@ A complete template for building and deploying AI agents with **Databricks Lakeh
 - **Production-ready observability** with MLflow tracing and monitoring
 - **Optimized dependencies** - lean production builds with conflict-free package management
 
-<img width="1723" alt="image" src="https://github.com/user-attachments/assets/c4b23492-9330-4cdc-8c39-ac30ebc69700" />
+<img width="1723" alt="image" src="https://github.com/user-attachments/assets/2f782eac-8e88-4463-97d6-40f59b344497" />
 
 The Agent being served:
 
