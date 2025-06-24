@@ -1,0 +1,95 @@
+{
+  "search.exclude": {
+    "**/node_modules/**": true,
+    "**/.venv/**": true,
+    "**/.mypy_cache/**": true,
+    "**/dist/**": true,
+    "**/yarn.lock": true,
+    "**/poetry.lock": true,
+    "**/package-lock.json": true,
+    "**/.svelte-kit/**": true,
+    "/data/": true
+  },
+  "files.trimTrailingWhitespace": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": false,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.rulers": [100],
+  "files.insertFinalNewline": true,
+  "editor.detectIndentation": false,
+  "editor.wrappingIndent": "none",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.venv/": true,
+    "**/.mypy_cache/": true,
+    "**/node_modules": true
+  },
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnType": false,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "never",
+      "source.fixAll.ruff": "explicit"
+    }
+  },
+  "[svelte]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "eslint.workingDirectories": ["auto"],
+  "eslint.validate": ["typescript", "svelte"],
+  "python.envFile": "${workspaceFolder}/.venv",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.postCommitCommand": "sync",
+  "python.testing.pytestArgs": ["lilac"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+
+  // Use ty for type checking instead of Pylance
+  "python.analysis.typeCheckingMode": "off",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.mypyEnabled": false,
+  "python.linting.tyEnabled": true,
+  "python.linting.tyArgs": [],
+
+  "notebook.output.textLineLimit": 200,
+  "notebook.output.scrolling": true,
+  "notebook.lineNumbers": "on",
+  "notebook.formatOnSave.enabled": true,
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "svelte.enable-ts-plugin": true,
+  "coverage-gutters.coverageBaseDir": "web/**",
+  "svelte.plugin.svelte.compilerWarnings": {
+    "css-unused-selector": "error"
+  },
+  "jupyter.interactiveWindow.cellMarker.codeRegex": "^# COMMAND ----------|^# Databricks notebook source|^(#\\s*%%|#\\s*\\<codecell\\>|#\\s*In\\[\\d*?\\]|#\\s*In\\[ \\])",
+  "jupyter.interactiveWindow.cellMarker.default": "# COMMAND ----------"
+}

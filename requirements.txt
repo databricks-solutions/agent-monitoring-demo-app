@@ -1,0 +1,20 @@
+# Auto-generated from pyproject.toml with semantic versioning ranges
+# to avoid conflicts with pre-installed packages in Databricks Apps
+
+fastapi[standard]>=0.115.8
+mlflow[databricks]>=3.1
+python-dotenv>=1.0.1
+uvicorn>=0.34.0
+openai>=1.66.0
+httpx>=0.28.0
+pydantic>=2.10.0
+tenacity==9.0.0
+pillow==11.1.0
+websockets==15.0
+pyarrow==18.1.0
+markupsafe==3.0.2
+rich==14.0.0
+protobuf==6.31.1
+pandas==2.3.0
+flask==3.1.0
+werkzeug==3.1.3
