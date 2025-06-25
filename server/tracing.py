@@ -24,6 +24,24 @@ def setup_mlflow_tracing():
 
   MLFLOW_EXPERIMENT_ID = os.environ.get('MLFLOW_EXPERIMENT_ID', None)
   mlflow.set_experiment(experiment_id=MLFLOW_EXPERIMENT_ID)
+  
+  # Enable LangChain autologging
+  # This automatically logs:
+  # - LLM calls with prompts and completions
+  # - Tool invocations with inputs and outputs
+  # - Agent executor runs with full conversation history
+  # - Retriever queries and results (if using RAG)
+  mlflow.langchain.autolog(
+    log_input_examples=True,
+    log_model_signatures=True,
+    log_models=False,  # We don't need to log models, just traces
+    log_datasets=False,
+    log_inputs_outputs=True,
+    disable=False,
+    exclusive=False,
+    disable_for_unsupported_versions=False,
+    silent=False
+  )
 
 
 def get_mlflow_experiment_id() -> Optional[str]:
