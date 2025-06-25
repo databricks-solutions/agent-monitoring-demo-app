@@ -24,8 +24,10 @@ def main():
   print('Testing Databricks agent...')
   print('=' * 50)
 
-  # Test message
-  test_messages = [{'role': 'user', 'content': 'How do I create a cluster in Databricks?'}]
+  # Test message - ask about catalogs to test the basic tool
+  test_messages = [
+    {'role': 'user', 'content': 'What catalogs are available in this workspace?'}
+  ]
 
   print('Sending message:')
   print(json.dumps(test_messages, indent=2))

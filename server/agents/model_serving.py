@@ -13,6 +13,7 @@ load_dotenv(dotenv_path='.env.local')
 
 logger = logging.getLogger(__name__)
 
+
 # Initialize the OpenAI client lazily to handle deployment environments
 def get_client():
   """Get or create the OpenAI client with Databricks configuration."""
@@ -35,7 +36,9 @@ def get_client():
 
 
 @mlflow.trace(span_type='LLM')
-def model_serving_endpoint(endpoint_name: str, messages: List[ChatCompletionMessageParam]) -> Dict[str, Any]:
+def model_serving_endpoint(
+  endpoint_name: str, messages: List[ChatCompletionMessageParam]
+) -> Dict[str, Any]:
   """Calls a model serving endpoint using OpenAI client."""
   # Create request preview
   user_messages = [msg for msg in messages if hasattr(msg, 'get') and msg.get('role') == 'user']
@@ -51,10 +54,7 @@ def model_serving_endpoint(endpoint_name: str, messages: List[ChatCompletionMess
   # Use OpenAI chat completions API with the specified endpoint
   client = get_client()
   response = client.chat.completions.create(
-    model=endpoint_name,
-    messages=messages,
-    max_tokens=1000,
-    temperature=0.1
+    model=endpoint_name, messages=messages, max_tokens=1000, temperature=0.1
   )
 
   # Convert OpenAI response to the expected format

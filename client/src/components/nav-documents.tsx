@@ -47,7 +47,7 @@ export function NavDocuments({
               <SelectValue placeholder="Choose an agent" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="default">Custom system prompt</SelectItem>
+              <SelectItem value="default">Databricks Agent</SelectItem>
               {ENDPOINTS.map((endpoint) => (
                 <SelectItem
                   key={endpoint.endpointName}
