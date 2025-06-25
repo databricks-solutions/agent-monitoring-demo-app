@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Generate requirements.txt with semantic versioning ranges from pyproject.toml
-to avoid conflicts with pre-installed packages in Databricks Apps.
+"""Generate requirements.txt with semantic versioning ranges from pyproject.toml.
+
+This script helps avoid conflicts with pre-installed packages in Databricks Apps.
 """
 
 import sys

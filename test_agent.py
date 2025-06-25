@@ -25,9 +25,7 @@ def main():
   print('=' * 50)
 
   # Test message - ask about catalogs to test the basic tool
-  test_messages = [
-    {'role': 'user', 'content': 'What catalogs are available in this workspace?'}
-  ]
+  test_messages = [{'role': 'user', 'content': 'What catalogs are available in this workspace?'}]
 
   print('Sending message:')
   print(json.dumps(test_messages, indent=2))

@@ -3,7 +3,6 @@
 import logging
 from typing import List
 
-from databricks.sdk import WorkspaceClient
 from langchain.tools import StructuredTool, Tool
 from pydantic import BaseModel, Field
 
@@ -64,9 +63,7 @@ def list_tables(catalog_name: str, schema_name: str) -> str:
   """List all tables in a specific schema."""
   try:
     w = get_workspace_client()
-    tables = w.tables.list(
-      catalog_name=catalog_name, schema_name=schema_name
-    )
+    tables = w.tables.list(catalog_name=catalog_name, schema_name=schema_name)
     table_info = []
     for table in tables:
       if table.name:
@@ -85,9 +82,7 @@ def list_volumes(catalog_name: str, schema_name: str) -> str:
   """List all volumes in a specific schema."""
   try:
     w = get_workspace_client()
-    volumes = w.volumes.list(
-      catalog_name=catalog_name, schema_name=schema_name
-    )
+    volumes = w.volumes.list(catalog_name=catalog_name, schema_name=schema_name)
     volume_names = [vol.name for vol in volumes if vol.name]
     if volume_names:
       return f'Volumes in {catalog_name}.{schema_name}: {", ".join(volume_names)}'
@@ -103,7 +98,7 @@ def create_catalog_tools() -> List[Tool]:
     Tool(
       name='list_catalogs',
       func=list_catalogs,
-      description='List all available catalogs in the Databricks workspace. Use this to discover what catalogs exist.',
+      description='List all available catalogs in the Databricks workspace.',
     ),
     StructuredTool.from_function(
       func=list_schemas,
@@ -114,13 +109,13 @@ def create_catalog_tools() -> List[Tool]:
     StructuredTool.from_function(
       func=list_tables,
       name='list_tables',
-      description='List all tables in a specific schema. Requires both catalog name and schema name as inputs.',
+      description='List all tables in a specific schema. Requires catalog and schema names.',
       args_schema=TableInput,
     ),
     StructuredTool.from_function(
       func=list_volumes,
       name='list_volumes',
-      description='List all volumes in a specific schema. Requires both catalog name and schema name as inputs.',
+      description='List all volumes in a specific schema. Requires catalog and schema names.',
       args_schema=VolumeInput,
     ),
   ]

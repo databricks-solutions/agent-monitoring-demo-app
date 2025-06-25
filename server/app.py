@@ -174,7 +174,8 @@ class LogAssessmentRequestOptions(BaseModel):
 async def log_feedback(options: LogAssessmentRequestOptions):
   """Log assessment for the agent API."""
   logger.info(
-    f'User feedback received - Trace: {options.trace_id}, Assessment: {options.assessment_name}={options.assessment_value}'
+    f'User feedback - Trace: {options.trace_id}, '
+    f'Assessment: {options.assessment_name}={options.assessment_value}'
   )
 
   try:
