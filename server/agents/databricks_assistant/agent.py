@@ -94,11 +94,9 @@ def databricks_agent(messages: List[ChatCompletionMessageParam]) -> Dict[str, An
   user_messages = [msg for msg in messages if msg.get('role') == 'user']
   if not user_messages:
     return {
-      'response': {
-        'choices': [
-          {'message': {'role': 'assistant', 'content': 'Please provide a question or request.'}}
-        ]
-      }
+      'choices': [
+        {'message': {'role': 'assistant', 'content': 'Please provide a question or request.'}}
+      ]
     }
 
   last_user_message = user_messages[-1].get('content', '')
@@ -114,23 +112,19 @@ def databricks_agent(messages: List[ChatCompletionMessageParam]) -> Dict[str, An
 
     # Format the response to match OpenAI's format
     return {
-      'response': {
-        'choices': [
-          {
-            'message': {
-              'role': 'assistant',
-              'content': result.get('output', 'I encountered an error processing your request.'),
-            }
+      'choices': [
+        {
+          'message': {
+            'role': 'assistant',
+            'content': result.get('output', 'I encountered an error processing your request.'),
           }
-        ]
-      }
+        }
+      ]
     }
   except Exception as e:
     logger.error(f'Error in agent execution: {str(e)}')
     return {
-      'response': {
-        'choices': [
-          {'message': {'role': 'assistant', 'content': f'I encountered an error: {str(e)}'}}
-        ]
-      }
+      'choices': [
+        {'message': {'role': 'assistant', 'content': f'I encountered an error: {str(e)}'}}
+      ]
     }
