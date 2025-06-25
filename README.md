@@ -276,3 +276,26 @@ Found a bug or want to improve the template?
 1. **Test your changes** with `./test_agent.sh` and `./fix.sh`
 2. **Update documentation** if you add new features
 3. **Follow the development patterns** established in [CLAUDE.md](./CLAUDE.md)
+
+
+## License Attribution
+
+This project uses the following open source libraries:
+
+| library           | description           | license    | source                                          |
+| ----------------- | --------------------- | ---------- | ----------------------------------------------- |
+| FastAPI           | Web framework         | MIT        | https://github.com/tiangolo/fastapi             |
+| MLflow            | ML lifecycle platform | Apache 2.0 | https://github.com/mlflow/mlflow                |
+| React             | UI framework          | MIT        | https://github.com/facebook/react               |
+| TypeScript        | JavaScript superset   | Apache 2.0 | https://github.com/microsoft/TypeScript         |
+| Vite              | Build tool            | MIT        | https://github.com/vitejs/vite                  |
+| Tailwind CSS      | CSS framework         | MIT        | https://github.com/tailwindlabs/tailwindcss     |
+| Radix UI          | UI primitives         | MIT        | https://github.com/radix-ui/primitives          |
+| Lucide React      | Icon library          | ISC        | https://github.com/lucide-icons/lucide          |
+| OpenAI Python SDK | OpenAI API client     | MIT        | https://github.com/openai/openai-python         |
+| Uvicorn           | ASGI server           | BSD        | https://github.com/encode/uvicorn               |
+| Pydantic          | Data validation       | MIT        | https://github.com/pydantic/pydantic            |
+| Python-dotenv     | Environment variables | BSD        | https://github.com/theskumar/python-dotenv      |
+| Databricks SDK    | Databricks API client | Apache 2.0 | https://github.com/databricks/databricks-sdk-py |
+| Ruff              | Python linter         | MIT        | https://github.com/astral-sh/ruff               |
+| Bun               | JavaScript runtime    | MIT        | https://github.com/oven-sh/bun                  |
