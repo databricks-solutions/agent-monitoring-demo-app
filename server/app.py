@@ -69,17 +69,33 @@ API_PREFIX = '/api'
 class ExperimentInfo(BaseModel):
   """Experiment info."""
 
-  experiment_id: str
-  link: str
+  experiment_id: Optional[str]
+  link: Optional[str]
 
 
 # Experiment info to link to the MLFlow experiment where traces are logged.
 @app.get(f'{API_PREFIX}/tracing_experiment')
 async def experiment():
   """Get the MLFlow experiment info."""
+  host = os.getenv('DATABRICKS_HOST', '')
+  
+  # In production, we might not have DATABRICKS_HOST, so get it from SDK
+  if not host:
+    try:
+      from databricks.sdk import WorkspaceClient
+      w = WorkspaceClient()
+      host = w.config.host
+    except Exception:
+      # Fallback to a default or empty
+      host = ''
+  
+  # Ensure the host has https:// prefix
+  if host and not host.startswith('https://'):
+    host = f'https://{host}'
+  
   return ExperimentInfo(
     experiment_id=get_mlflow_experiment_id(),
-    link=f'{os.getenv("DATABRICKS_HOST")}/ml/experiments/{get_mlflow_experiment_id()}?compareRunsMode=TRACES',
+    link=f'{host}/ml/experiments/{get_mlflow_experiment_id()}?compareRunsMode=TRACES' if host else None,
   )
 
 
@@ -174,7 +190,8 @@ class LogAssessmentRequestOptions(BaseModel):
 async def log_feedback(options: LogAssessmentRequestOptions):
   """Log assessment for the agent API."""
   logger.info(
-    f'User feedback received - Trace: {options.trace_id}, Assessment: {options.assessment_name}={options.assessment_value}'
+    f'User feedback - Trace: {options.trace_id}, '
+    f'Assessment: {options.assessment_name}={options.assessment_value}'
   )
 
   try:

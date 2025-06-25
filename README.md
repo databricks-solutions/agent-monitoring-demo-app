@@ -13,31 +13,44 @@ A complete template for building and deploying AI agents with **Databricks Lakeh
 - **Professional dev setup** with automated scripts for development and deployment  
 - **Production-ready observability** with MLflow tracing and monitoring
 - **Optimized dependencies** - lean production builds with conflict-free package management
+- **Claude memory ready** - includes [CLAUDE.md](./CLAUDE.md) for AI-assisted development with full project context
 
-<img width="1723" alt="image" src="https://github.com/user-attachments/assets/2f782eac-8e88-4463-97d6-40f59b344497" />
+<img width="1723" alt="image" src="https://github.com/user-attachments/assets/14aa98ad-33fa-4270-9479-48894dc6f69f" />
 
 The Agent being served:
+
+**databricks_assistant.py** is a LangChain tool-calling agent that can explore and query your Databricks Unity Catalog structure. The agent includes the following tools:
+
+- **list_catalogs**: Lists all available catalogs in the workspace
+- **list_schemas**: Lists all schemas in a specific catalog  
+- **list_tables**: Lists all tables in a specific schema
+- **list_volumes**: Lists all volumes in a specific schema
 
 ```python
 @mlflow.trace(span_type='LLM')
 def databricks_agent(messages):
-  """A simple agent that uses a system prompt to answer questions about Databricks."""
-  SYSTEM_PROMPT = """
-      You are a chatbot that answers questions about Databricks.
-      For requests unrelated to Databricks, reject the request.
-  """
-  
-  # Use OpenAI-compatible API with Databricks serving endpoints
-  client = get_client()  # Uses DATABRICKS_TOKEN and DATABRICKS_HOST
-  response = client.chat.completions.create(
-    model='databricks-claude-sonnet-4',
-    messages=[{'role': 'system', 'content': SYSTEM_PROMPT}, *messages],
+  """A LangChain agent that can explore Databricks catalogs and answer questions."""
+  # Initialize ChatDatabricks LLM
+  llm = ChatDatabricks(
+    endpoint='databricks-claude-sonnet-4',
     max_tokens=1000,
-    temperature=0.1
+    temperature=0.1,
   )
   
-  return response  # Formatted for compatibility
+  # Create catalog exploration tools
+  tools = create_catalog_tools()  # list_catalogs, list_schemas, list_tables, list_volumes
+  
+  # Create tool-calling agent with custom prompt
+  agent = create_tool_calling_agent(llm=llm, tools=tools, prompt=prompt)
+  
+  # Execute agent with AgentExecutor for tool orchestration
+  agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+  result = agent_executor.invoke({'input': user_query})
+  
+  return formatted_response  # Formatted for UI compatibility
 ```
+
+The agent uses the Databricks SDK (`WorkspaceClient`) to interact with Unity Catalog, providing dynamic exploration of your data assets. The UI renders markdown responses with proper formatting for lists, code blocks, and emphasis.
 
 ## Tech Stack
 
@@ -47,10 +60,13 @@ def databricks_agent(messages):
 - **[shadcn/ui](https://ui.shadcn.com/)** for beautiful, accessible components built on Radix UI
 - **[Tailwind CSS](https://tailwindcss.com/)** for styling
 - **[Bun](https://bun.sh/)** as the package manager and dev server
+- **[react-markdown](https://github.com/remarkjs/react-markdown)** + **[remark-gfm](https://github.com/remarkjs/remark-gfm)** for rendering agent markdown responses
 
 **⚙️ Backend (Port 8000)**
 - **[FastAPI](https://fastapi.tiangolo.com/)** for the Python API server with auto-docs
 - **[uvicorn](https://www.uvicorn.org/)** with hot reload for development
+- **[LangChain](https://python.langchain.com/)** for building the tool-calling agent with AgentExecutor
+- **[Databricks SDK](https://databricks-sdk-py.readthedocs.io/)** for Unity Catalog operations
 - **[OpenAI Python SDK](https://github.com/openai/openai-python)** for Databricks model serving endpoints
 
 **📊 Observability & Deployment**
@@ -100,7 +116,6 @@ function MyComponent() {
 - **Tailwind classes** for custom styling and layout
 - **Responsive design** built-in with Tailwind's breakpoint system
 
-A simple system-prompt agent is defined in `server/agents/databricks_assisstant.py` that calls OpenAI with a system prompt, which can be further customized.
 
 ## Quick Start
 
@@ -227,15 +242,25 @@ LHA_SOURCE_CODE_PATH="/Workspace/Users/nikhil.thorat@databricks.com/nikhil-chatb
 
 ## Claude Code Integration
 
-This project includes configuration for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) to help with development tasks. See [CLAUDE.md](./CLAUDE.md) for detailed project instructions and context.
+🤖 **This repository is Claude memory ready!** 
+
+This project includes comprehensive configuration for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) to accelerate your development workflow. The [CLAUDE.md](./CLAUDE.md) file contains detailed project instructions, conventions, and context that Claude Code uses to understand your codebase and assist effectively.
+
+**What makes this Claude-ready:**
+- **Project memory**: [CLAUDE.md](./CLAUDE.md) provides Claude with deep context about the codebase structure, development patterns, and best practices
+- **Smart commands**: Claude understands common tasks like "deploy", "test agent", and "fix" without detailed explanations
+- **Contextual awareness**: Claude knows about the tech stack, file organization, and project-specific conventions
+- **Automated workflows**: Claude can handle complex tasks like deployment verification and dependency conflict resolution
 
 **Key Claude commands:**
 - "setup" - Run the interactive environment setup script
-- "deploy" - Deploy the application using the deploy script  
+- "deploy" - Deploy the application and verify success automatically  
 - "fix" - Format all code according to project style guidelines
 - "test agent" - Test the agent directly without starting the full web application
+- "start server" - Run the development server in a screen session
+- "kill server" - Stop the development server
 
-Claude Code understands the project structure and can help with development tasks while following the established patterns and conventions.
+Claude Code understands the project structure and can help with development tasks while following the established patterns and conventions. When you work with Claude on this project, it already knows your tooling, dependencies, and workflows!
 
 ## Troubleshooting
 

@@ -8,13 +8,16 @@ uvicorn>=0.34.0
 openai>=1.66.0
 httpx>=0.28.0
 pydantic>=2.10.0
+langchain>=0.3.0
+langchain-community>=0.3.0
+databricks-sdk>=0.44.1
 tenacity==9.0.0
 pillow==11.1.0
 websockets==15.0
 pyarrow==18.1.0
 markupsafe==3.0.2
 rich==14.0.0
-protobuf==6.31.1
+protobuf>=3.12.0,<5
 pandas==2.3.0
 flask==3.1.0
 werkzeug==3.1.3

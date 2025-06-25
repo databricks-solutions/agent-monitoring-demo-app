@@ -38,6 +38,7 @@ import { useQueryExperiment } from "@/queries/useQueryTracing";
 import { Spinner } from "@/components/Spinner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { MessageContent } from "@/components/MessageContent";
 
 const queryClient = new QueryClient();
 
@@ -158,7 +159,7 @@ export function Chat() {
                 <AvatarFallback>AI</AvatarFallback>
               </Avatar>
               <div className="flex flex-col gap-0.5">
-                <p className="text-sm font-medium leading-none">AI Assistant</p>
+                <p className="text-sm font-medium leading-none">Databricks Agent</p>
                 <p className="text-xs text-muted-foreground">Ready to help</p>
               </div>
             </div>
@@ -184,7 +185,7 @@ export function Chat() {
             <ScrollArea className="h-full w-full">
               <div className="flex flex-col gap-4 p-1 min-h-full">
                 <div className="flex w-fit max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted">
-                  Hi, how can I help you today?
+                  <MessageContent content="Hi, how can I help you today?" />
                 </div>
                 {messages.map((msg, i) => (
                   <div key={i} className="flex flex-col gap-2">
@@ -196,7 +197,7 @@ export function Chat() {
                           : "bg-muted"
                       }`}
                     >
-                      {msg.content}
+                      <MessageContent content={msg.content} />
                     </div>
                     {msg.role === "assistant" && (
                       <div className="flex justify-start">

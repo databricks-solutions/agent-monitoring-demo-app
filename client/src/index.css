@@ -91,3 +91,52 @@ code {
     -moz-osx-font-smoothing: grayscale;
   }
 }
+
+/* Custom prose styles for markdown rendering */
+@layer utilities {
+  .prose {
+    color: inherit;
+    max-width: none;
+  }
+  
+  .prose p {
+    margin: 0;
+  }
+  
+  .prose strong {
+    color: inherit;
+  }
+  
+  .prose ul, .prose ol {
+    margin: 0;
+  }
+  
+  .prose blockquote {
+    color: inherit;
+    opacity: 0.8;
+  }
+  
+  .prose code {
+    color: inherit;
+    font-weight: normal;
+  }
+  
+  .prose pre {
+    color: inherit;
+    background-color: hsl(var(--muted));
+  }
+  
+  .prose pre code {
+    background-color: transparent;
+    padding: 0;
+    font-size: 0.875em;
+  }
+  
+  .prose a {
+    text-decoration-line: underline;
+  }
+  
+  .prose a:hover {
+    text-decoration-line: none;
+  }
+}
