@@ -16,23 +16,56 @@ logger = logging.getLogger(__name__)
 
 # Initialize the OpenAI client lazily to handle deployment environments
 def get_client():
-  """Get or create the OpenAI client with Databricks configuration."""
-  databricks_token = os.getenv('DATABRICKS_TOKEN')
-  databricks_host = os.getenv('DATABRICKS_HOST')
-
-  if not databricks_token:
-    raise ValueError('DATABRICKS_TOKEN environment variable is required')
-  if not databricks_host:
-    raise ValueError('DATABRICKS_HOST environment variable is required')
-
-  # Remove https:// prefix if present since we're adding it
-  if databricks_host.startswith('https://'):
-    databricks_host = databricks_host[8:]
-
-  return OpenAI(
-    api_key=databricks_token,
-    base_url=f'https://{databricks_host}/serving-endpoints',
-  )
+  """Get or create the OpenAI client with Databricks configuration.
+  
+  In production Databricks Apps, we need to use OAuth authentication.
+  The OpenAI client doesn't directly support OAuth, so we use the 
+  Databricks SDK to get the host and create a proper client.
+  """
+  from databricks.sdk import WorkspaceClient
+  
+  # Try to get a workspace client (handles auth automatically)
+  try:
+    w = WorkspaceClient()
+    # Get the host from the workspace client config
+    databricks_host = w.config.host
+    
+    # For model serving endpoints in Databricks Apps, we can use
+    # a special token that the SDK provides
+    databricks_token = w.config.token
+    
+    if not databricks_token:
+      # In OAuth scenarios, we need to get an access token
+      # The SDK handles this automatically
+      auth = w.config.authenticate()
+      databricks_token = auth.get('access_token', 'no-token-required')
+    
+    # Remove https:// prefix if present since we're adding it
+    if databricks_host.startswith('https://'):
+      databricks_host = databricks_host[8:]
+    
+    return OpenAI(
+      api_key=databricks_token,
+      base_url=f'https://{databricks_host}/serving-endpoints',
+    )
+  except Exception:
+    # Fallback to environment variables for local development
+    databricks_token = os.getenv('DATABRICKS_TOKEN')
+    databricks_host = os.getenv('DATABRICKS_HOST')
+    
+    if not databricks_token:
+      raise ValueError('Unable to authenticate with Databricks')
+    if not databricks_host:
+      raise ValueError('Unable to determine Databricks host')
+    
+    # Remove https:// prefix if present since we're adding it
+    if databricks_host.startswith('https://'):
+      databricks_host = databricks_host[8:]
+    
+    return OpenAI(
+      api_key=databricks_token,
+      base_url=f'https://{databricks_host}/serving-endpoints',
+    )
 
 
 @mlflow.trace(span_type='LLM')

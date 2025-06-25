@@ -86,6 +86,27 @@ Note: Screen capture may not always show real-time output clearly, but process m
   2. Scanning deploy.sh output for success/failure indicators
   3. Checking app status and providing troubleshooting if needed
   4. Reporting deployment status back to user with specific details
+- **Authentication in Production**: Databricks Apps use OAuth with `DATABRICKS_CLIENT_ID` and `DATABRICKS_CLIENT_SECRET` instead of token-based auth
+  - The code automatically detects and uses OAuth credentials when available
+  - Falls back to token-based auth for local development
+  - WorkspaceClient() handles auth chain automatically in production
+
+## Production Monitoring
+- **App URL Pattern**: After deployment, apps are accessible at `https://{app-name}-{deployment-id}.{region}.databricksapps.com`
+- **Key Monitoring Endpoints**:
+  1. **App Logs**: `{app-url}/logz` - Real-time application logs (requires browser authentication)
+  2. **Health Check**: `{app-url}/api/health` - Quick health status check
+  3. **MLflow Experiment**: Check the experiment ID in deployment output for agent traces
+- **Post-Deployment Verification**:
+  1. Test chat interface with "list catalogs" to verify LangChain agent
+  2. Check markdown rendering displays correctly
+  3. Verify thumbs up/down feedback functionality works
+  4. Monitor MLflow experiment for new traces with each agent interaction
+- **Monitoring Best Practices**:
+  - Always check deployment output for MLflow experiment ID
+  - Use `/api/tracing_experiment` endpoint to get experiment link
+  - Monitor logs during first few user interactions
+  - Check for any dependency warnings in deployment output
 
 ## Reading Databricks Apps Logs
 - **Log Access Method**: Databricks Apps logs require OAuth authentication and are accessible through:
