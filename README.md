@@ -1,11 +1,11 @@
-# Lakehouse Apps + AI Agents Template
+# Databricks Apps + AI Agents Template
 
-A complete template for building and deploying AI agents with **Databricks Lakehouse Apps**. This repo demonstrates best practices for agent development with **MLflow 3.0 monitoring**, **traced function observability**, and a modern chat interface.
+A complete template for building and deploying AI agents with **Databricks Apps**. This repo demonstrates best practices for agent development with **MLflow 3.0 monitoring**, **traced function observability**, and a modern chat interface.
 
 🎯 **Perfect for getting started with:**
 - **Databricks Agent development** with production monitoring
 - **MLflow 3.0 tracing** and experiment tracking
-- **Lakehouse Apps deployment** with a beautiful UI
+- **Databricks Apps deployment** with a beautiful UI
 - **Modern development workflow** with hot reload and automated scripts
 
 ✨ **What makes this template special:**
@@ -71,7 +71,7 @@ The agent uses the Databricks SDK (`WorkspaceClient`) to interact with Unity Cat
 
 **📊 Observability & Deployment**
 - **[MLflow](https://mlflow.org/)** for experiment tracking and [agent monitoring/evaluation](https://docs.databricks.com/aws/en/mlflow3/genai/eval-monitor/)
-- **[Lakehouse Apps](https://www.databricks.com/product/databricks-apps)** for production deployment
+- **[Databricks Apps](https://www.databricks.com/product/databricks-apps)** for production deployment
 
 **🔧 Development Tools**
 - **Fast edit-refresh cycle**: `./watch.sh` runs both servers with hot reload
