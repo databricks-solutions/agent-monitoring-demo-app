@@ -1,4 +1,4 @@
-"""FastAPI app for the Lakehouse Apps + Agents demo."""
+"""FastAPI app for the Databricks Apps + Agents demo."""
 
 import argparse
 import logging
