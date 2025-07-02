@@ -120,3 +120,15 @@ Note: Screen capture may not always show real-time output clearly, but process m
 - **Dependency Conflict Resolution**: When pip dependency conflicts occur (e.g., "but you have xyz version"), pin the conflicting packages in pyproject.toml to the exact versions that are already installed in Databricks Apps
 - **Common Conflicts**: Packages like tenacity, pillow, websockets, pyarrow, markupsafe, werkzeug, and flask often conflict with pre-installed versions
 - **Python Version Requirements**: If databricks-connect version conflicts occur, ensure the requires-python version in pyproject.toml matches the requirements (e.g., databricks-connect==16.2.0 requires Python>=3.12)
+
+## Viewing the UI with Playwright
+
+To view and interact with the development UI:
+1. Ensure the dev server is running: `./dev.sh`
+2. Use Playwright MCP tools:
+   - Navigate: `mcp__playwright__browser_navigate` to `http://localhost:5433`
+   - Screenshot: `mcp__playwright__browser_take_screenshot`
+   - View DOM: `mcp__playwright__browser_snapshot` to see the accessibility tree and query elements
+   - Network: `mcp__playwright__browser_network_requests` to see all network requests
+   - Interact: `mcp__playwright__browser_click`, `mcp__playwright__browser_type`, etc.
+   - Debug: `mcp__playwright__browser_console_messages` to see console errors
